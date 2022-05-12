@@ -149,7 +149,7 @@ def input_input(id):
     )
     re_mail = email_pick['email']
     pick_sign = email_pick['pick_sign']
-    print(email_pick)
+    # print(email_pick)
     # re_mail = input('输入希望接收通知的邮箱地址(不想接收可以不写):', type=TEXT, help_text='详情咨询sun.h.w@foxmail.com')
     # pick_side = select("若预选位置均有人，是否随机安排同场馆其他位置:",['yes','no'],help_text='选择no，系统会尝试一小时持续选择预选位置')
     # # print(pick_side)
