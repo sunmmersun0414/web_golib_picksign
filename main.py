@@ -1,3 +1,4 @@
+import time
 
 from pywebio.input import *
 from pywebio.output import *
@@ -150,19 +151,6 @@ def input_input(id):
     re_mail = email_pick['email']
     pick_sign = email_pick['pick_sign']
     # print(email_pick)
-    # re_mail = input('输入希望接收通知的邮箱地址(不想接收可以不写):', type=TEXT, help_text='详情咨询sun.h.w@foxmail.com')
-    # pick_side = select("若预选位置均有人，是否随机安排同场馆其他位置:",['yes','no'],help_text='选择no，系统会尝试一小时持续选择预选位置')
-    # # print(pick_side)
-    # radio_res = radio(
-    #     '选座期望场所',
-    #     options=['一楼走廊 (一楼)', '一楼学生自修室 (一楼)', '二楼走廊 (二楼)','201科技图书借阅Ⅰ室 (2楼)',
-    #              '202科技图书借阅Ⅱ室 (2楼)','三楼走廊 (三楼)','302社科图书借阅Ⅰ室 (3楼)','305社科图书借阅Ⅱ室 (3楼)',
-    #              '四楼走廊 (四楼)','406社科图书借阅Ⅲ室 (4楼)']
-    # )
-
-    # select_res = select("选座期望场所:", ['一楼走廊 (一楼)', '一楼学生自修室 (一楼)', '二楼走廊 (二楼)','201科技图书借阅Ⅰ室 (2楼)',
-    #              '202科技图书借阅Ⅱ室 (2楼)','三楼走廊 (三楼)','302社科图书借阅Ⅰ室 (3楼)','305社科图书借阅Ⅱ室 (3楼)',
-    #              '四楼走廊 (四楼)','406社科图书借阅Ⅲ室 (4楼)'])
     if str(id) in str(threading.enumerate()):
         put_text('already start:  %s' % id)
         confirm = actions('你已经在选座中，若已经修改座位，点击继续', ['继续', '退出'],
@@ -197,7 +185,12 @@ def input_input(id):
                 # th[id] = id_tmp
 
             else:
-                put_text('already start:  %s' % id)
+                # put_text('already start:  %s' % id)
+
+                id_tmp=threading.Thread(name=id+str(time.time()),target=go_main, args=[cookie_string,re_mail,oftenseat,pick_sign])
+                put_text('start:  %s' % id_tmp)
+                print(id+str(time.time()))
+                id_tmp.start()
 
             return cookie_string
         except:
