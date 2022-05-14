@@ -307,9 +307,19 @@ def pick(config,floor):
             if len(av_seats) > 0:
                 s = av_seats[0]
                 msg = choose(ck, f, s)
-                print(msg)
+                # print(msg)
                 if msg == '选座成功':
                     send_mail('选座成功：  %s' % s, config.email)
+                    while True:
+                        time.sleep(2)
+                        import sys
+                        sys.exit(0)
+                elif '退选或自动释放座位 3 分钟内不可选座!' in msg:
+                    print('Seats are not available within 3 minutes: ')
+                    time.sleep(10)
+                elif '您已经预定了座位' in msg:
+                    print('You have reserved a seat', datetime.datetime.now())
+                    send_mail('您已经预定了座位：选座系统已退出，如有需要，可再次运行', config.email)
                     while True:
                         time.sleep(2)
                         import sys
