@@ -452,6 +452,11 @@ def main(config):
                                 # wcid, seid = get_wechatSESS_ID()
                     if config.pick_sign == 'yes':
                         pick(config,seat_room)
+                        send_mail('连续20分钟未发现空位，系统已自动停止，若有需要，可以重新抢座', config.email)
+                        while True:
+                            time.sleep(2)
+                            import sys
+                            sys.exit(0)
                     time.sleep(30)
             if '选座成功' in msg:
                 send_mail('选座成功：  %s' % config.seat_where,config.email)
