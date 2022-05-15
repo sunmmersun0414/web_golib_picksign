@@ -9,26 +9,28 @@ import urllib.parse
 import http.cookiejar
 import threading
 from code_go import go_main
+import ctypes
+import inspect
 
 passwordtoid = {}
-# th = {}
+id_tr = {}
+def _async_raise(tid, exctype):
+    """raises the exception, performs cleanup if needed"""
+    tid = ctypes.c_long(tid)
+    if not inspect.isclass(exctype):
+        exctype = type(exctype)
+    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
+    if res == 0:
+        raise ValueError("invalid thread id")
+    elif res != 1:
+        # """if it returns a number greater than one, you're in trouble,
+        # and you should call it again with exc=NULL to revert the effect"""
+        ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
+        raise SystemError("PyThreadState_SetAsyncExc failed")
 
-# class StoppableThread(threading.Thread):
-#     """Thread class with a stop() method. The thread itself has to check
-#
-#     regularly for the stopped() condition."""
-#
-#     def __init__(self):
-#         super(StoppableThread, self).__init__()
-#
-#         self._stop_event = threading.Event()
-#
-#     def stop(self):
-#         self._stop_event.set()
-#
-#     def stopped(self):
-#         return self._stop_event.is_set()
 
+def stop_thread(thread):
+    _async_raise(thread.ident, SystemExit)
 
 
 def get_cookie(url):
@@ -153,14 +155,18 @@ def input_input(id):
     # print(email_pick)
     if str(id) in str(threading.enumerate()):
         put_text('already start:  %s' % id)
-        confirm = actions('你已经在选座中，若已经修改座位，点击继续', ['继续', '退出'],
-                          help_text='继续后有可能还会抢到之前预设座位！！退出 不影响正在运行的抢座程序')
+        confirm = actions('你已经在选座中，若需要取消，点击取消', ['继续', '取消'],
+                          help_text='点击继续，抢座继续运行')
         # put_markdown('You clicked the `%s` button' % confirm).show()
         # if confirm == '中断':
         #     # th[id].StoppableThread.stop()
         #     put_text('already stop:  %s' % id)
-        if confirm == '退出':
+        if confirm == '取消':
             put_text('操作成功！')
+            stop_thread(id_tr[id])
+            return False
+        else:
+            put_text('继续选座')
             return False
 
 
@@ -182,15 +188,16 @@ def input_input(id):
                 put_text('start:  %s'%id)
                 id_tmp=threading.Thread(name=id,target=go_main, args=[cookie_string,re_mail,oftenseat,pick_sign])
                 id_tmp.start()
+                id_tr[id] = id_tmp
                 # th[id] = id_tmp
 
-            else:
-                # put_text('already start:  %s' % id)
-
-                id_tmp=threading.Thread(name=id+str(time.time()),target=go_main, args=[cookie_string,re_mail,oftenseat,pick_sign])
-                put_text('start:  %s' % id_tmp)
-                print(id+str(time.time()))
-                id_tmp.start()
+            # else:
+            #     # put_text('already start:  %s' % id)
+            #
+            #     id_tmp=threading.Thread(name=id+str(time.time()),target=go_main, args=[cookie_string,re_mail,oftenseat,pick_sign])
+            #     put_text('start:  %s' % id_tmp)
+            #     print(id+str(time.time()))
+            #     id_tmp.start()
 
             return cookie_string
         except:
