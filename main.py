@@ -123,7 +123,7 @@ def check_pwd():
                 put_text(check_return)
                 check_pwd()
 
-    # put_image(open('weixing.jpg', 'rb').read(), width='75%', height='75%')
+    # put_image(open('weixing.jpg', 'rb').read(), width='50%', height='50%')
     datas = input_group(
         "获取授权码，请联系:sun.h.w@foxmail.com ",
         inputs=[
