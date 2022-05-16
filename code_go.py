@@ -443,15 +443,7 @@ def main(config):
                             # print('changguan :: ',seat_room,datetime.datetime.now())
                             msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
                             
-                            print('The seat has been reserved by others: ',seat_where)
-                        # elif '场馆尚未开放，无法操作' in msg:
-                        #     time.sleep(1)
-                        #     msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
-                        #     print(msg, seat_where)
-                        # elif '退选或自动释放座位 3 分钟内不可选座'in msg:
-                        #     time.sleep(10)
-                        #     msg =choose(config.my_cookies['cookie'],seat_room,seat_where)
-                        #     print(msg, seat_where)
+                            print('The seat has been reserved by others: ',seat_where,datetime.datetime.now())
                         elif '选座成功' in msg:
                             send_mail('选座成功：  %s'%seat_where,config.email)
                             while True:
