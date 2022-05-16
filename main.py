@@ -123,7 +123,7 @@ def check_pwd():
                 put_text(check_return)
                 check_pwd()
 
-    # put_image(open('weixing.jpg', 'rb').read(), width='20%', height='20%')
+    # put_image(open('weixing.jpg', 'rb').read(), width='50%', height='50%')
     datas = input_group(
         "获取授权码，请联系:sun.h.w@foxmail.com ",
         inputs=[
@@ -170,7 +170,7 @@ def input_input(id):
             return False
 
 
-    put_image(open('code.png', 'rb').read(),width='20%',height='20%')
+    put_image(open('code.png', 'rb').read(),width='50%',height='50%')
     put_text('请用微信扫一扫，授权登录后复制网址填入！(无需在意网页内容！)')
     myAge = input('输入获得的地址:', type=URL, help_text='详情咨询sun.h.w@foxmail.com')
     print('myAge is:', myAge)
