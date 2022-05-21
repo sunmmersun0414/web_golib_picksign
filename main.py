@@ -215,7 +215,7 @@ if __name__ == '__main__':
     start_server(applications=[check_pwd, ],
         debug=False,
         auto_open_webbrowser=False,
-        remote_access=True,port=54643)
+        remote_access=True,port=54643,reconnect_timeout=5,cdn=False)
     # start_server(
     #     applications=[input_input, ],
     #     debug=True,
