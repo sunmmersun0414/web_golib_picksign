@@ -169,7 +169,7 @@ def input_input(id):
             put_text('继续选座')
             return False
 
-
+    put_text('请稍等.....................')
     put_image(open('code.png', 'rb').read(),width='50%',height='50%')
     put_text('请用微信扫一扫，授权登录后复制网址填入！(无需在意网页内容！)')
     myAge = input('输入获得的地址:', type=URL, help_text='详情咨询sun.h.w@foxmail.com')
